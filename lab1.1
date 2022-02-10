@@ -14,9 +14,9 @@ Database		Oracle 10g
 
 
 
-Drop table object_types
-/
 Drop table objects
+/
+Drop table object_types
 /
 
 
@@ -29,20 +29,20 @@ Drop table objects
 -- Create Tables section
 
 
-Create table objects (
-	object_type_id Varchar2 (20) NOT NULL ,
-	object_id Varchar2 (20) NOT NULL ,
+Create table object_types (
+	object_type_id Number NOT NULL ,
+	parent_id Number NOT NULL ,
 	name Varchar2 (20),
-	object_id Varchar2 (20) NOT NULL ,
-primary key (object_id) 
+primary key (object_type_id) 
 ) 
 /
 
-Create table object_types (
-	object_type_id Varchar2 (20) NOT NULL ,
-	object_type_id Varchar2 (20) NOT NULL ,
+Create table objects (
+	object_id Number NOT NULL ,
+	parent_id Number NOT NULL ,
+	object_type_id Number NOT NULL ,
 	name Varchar2 (20),
-primary key (object_type_id) 
+primary key (object_id) 
 ) 
 /
 
@@ -56,13 +56,13 @@ primary key (object_type_id)
 
 -- Create Foreign keys section
 
-Alter table objects add  foreign key (object_id) references objects (object_id) 
-/
-
 Alter table objects add  foreign key (object_type_id) references object_types (object_type_id) 
 /
 
-Alter table object_types add  foreign key (object_type_id) references object_types (object_type_id) 
+Alter table object_types add  foreign key (parent_id) references object_types (object_type_id) 
+/
+
+Alter table objects add  foreign key (parent_id) references objects (object_id) 
 /
 
 
@@ -97,6 +97,8 @@ Alter table object_types add  foreign key (object_type_id) references object_typ
 
 
 -- Create Attribute comments section
+
+
 
 
 
